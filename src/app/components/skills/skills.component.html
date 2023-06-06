@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="column">
+        <h2>Crear Skill</h2>
+
+        <form (ngSubmit)="crearHabilitat()">
+        <div class="input-container">
+            <label>Nom:</label>
+            <input type="text" [(ngModel)]="nom" name="nom" required minlength="3" maxlength="20" pattern="[A-Z][a-z ]*">
+        </div>
+        <div class="input-container">
+            <label>Descripció:</label>
+            <textarea [(ngModel)]="descripcio" name="descripcio" maxlength="200"></textarea>
+        </div>
+        <div class="input-container">
+            <label>Damage:</label>
+            <input type="number" [(ngModel)]="damage" name="damage" required min="10" max="100">
+        </div>
+        <div class="input-container">
+            <label>Mana:</label>
+            <input type="number" [(ngModel)]="mana" name="mana" required min="10" max="100">
+        </div>
+
+        <div *ngIf="missatgeError" class="error-message">
+            {{ missatgeError }}
+        </div>
+        
+        <button type="submit">Guardar</button>
+        </form>
+    </div>
+    <div class="column">
+        <h2>Llistat d'habilitats</h2>
+        <ul>
+        <li *ngFor="let habilitat of habilitats">
+            <h3>{{ habilitat.nom }}</h3>
+            <p>{{ habilitat.descripcio }}</p>
+            <p>Damage: {{ habilitat.damage }}</p>
+            <p>Mana: {{ habilitat.mana }}</p>
+            <button (click)="editarHabilitat(habilitat)">Editar</button>
+            <button (click)="eliminarHabilitat(habilitat)">Eliminar</button>
+        </li>
+        </ul>
+    </div>
+    <div class="column">
+        <h2>Editar Skill</h2>
+        <form *ngIf="habilitatSeleccionada" (ngSubmit)="guardarCanvis()">
+        <div class="input-container">
+            <label>Nom:</label>
+            <input type="text" [(ngModel)]="habilitatSeleccionada.nom" name="nom" required minlength="3" maxlength="20" pattern="[A-Z][a-z ]*">
+        </div>
+        <div class="input-container">
+            <label>Descripció:</label>
+            <textarea [(ngModel)]="habilitatSeleccionada.descripcio" name="descripcio" maxlength="200"></textarea>
+        </div>
+        <div class="input-container">
+            <label>Damage:</label>
+            <input type="number" [(ngModel)]="habilitatSeleccionada.damage" name="damage" required min="10" max="100">
+        </div>
+        <div class="input-container">
+            <label>Mana:</label>
+            <input type="number" [(ngModel)]="habilitatSeleccionada.mana" name="mana" required min="10" max="100">
+        </div>
+        <button type="submit">Guardar canvis</button>
+        </form>
+    </div>
+</div>

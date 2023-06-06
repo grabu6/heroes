@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="column">
+        <h2>Crear Heroe</h2>
+
+        <form (ngSubmit)="crearHeroe()">
+        <div class="input-container">
+            <label>Nom:</label>
+            <input type="text" [(ngModel)]="nom" name="nom" required minlength="3" maxlength="20" pattern="[A-Z][a-z ]*">
+        </div>
+        <div class="input-container">
+            <label>Descripció:</label>
+            <textarea [(ngModel)]="descripcio" name="descripcio" maxlength="200"></textarea>
+        </div>
+        <div>
+            <label>Habilitats:</label>
+            <div *ngFor="let habilitat of habilitats">
+              <input type="checkbox" name="habilitat"[(ngModel)]="habilitat.seleccionada">
+              {{ habilitat.nom }} 
+            </div>
+        </div>
+        <div *ngIf="missatgeError" class="error-message">
+            {{ missatgeError }}
+        </div>
+        <button type="submit">Guardar</button>
+        </form>
+    </div>
+</div>
+
