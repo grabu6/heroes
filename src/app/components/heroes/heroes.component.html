@@ -13,16 +13,25 @@
         </div>
         <div>
             <label>Habilitats:</label>
-            <div *ngFor="let habilitat of habilitats">
-              <input type="checkbox" name="habilitat"[(ngModel)]="habilitat.seleccionada">
-              {{ habilitat.nom }} 
-            </div>
+            <li *ngFor="let habilitat of habilitats">
+                <input type="checkbox" [checked]="estaSeleccionada(habilitat)" (change)="seleccionarHabilitat(habilitat)">
+                {{ habilitat.nom }} ({{ habilitat.compatibles.length }})
+            </li>
+            <br>
+            <button type="submit">Crear Heroi</button>
+            <br>
+            <p>{{ missatgeError }}</p>
         </div>
-        <div *ngIf="missatgeError" class="error-message">
-            {{ missatgeError }}
-        </div>
-        <button type="submit">Guardar</button>
         </form>
-    </div>
-</div>
+
+        <div>
+          <h3>Llistat d'herois</h3>
+          <ul>
+            <li *ngFor="let heroi of herois">
+              <strong>{{ heroi.nom }}</strong><br>
+              Descripció: {{ heroi.descripcio }}<br>
+              Habilitats: {{ heroi.habilitat }}
+            </li>
+          </ul>
+        </div>
 

@@ -7,7 +7,7 @@ interface Heroes {
 }
 interface Habilitat {
   nom: string;
-  seleccionada:boolean;
+  compatibles: string[];
 }
 
 @Component({
@@ -24,6 +24,7 @@ export class HeroesComponent {
   missatgeError: string | null = null;
   
   habilitats: Habilitat[] = [];
+  habilitatsSeleccionada: Habilitat[] = [];
 
 ngOnInit() {
   const heroesGuardats = localStorage.getItem('heroes');
@@ -35,6 +36,18 @@ ngOnInit() {
   if (habilitatGuardades) {
     this.habilitats = JSON.parse(habilitatGuardades);
   }
+
+  const compatibilitatsGuardades = localStorage.getItem('compatibilities');
+  if (compatibilitatsGuardades) {
+    const compatibilities = JSON.parse(compatibilitatsGuardades);
+
+    for (const habilitat of this.habilitats) {
+      if (compatibilities.hasOwnProperty(habilitat.nom)) {
+        habilitat.compatibles = Object.keys(compatibilities[habilitat.nom]).filter(h => compatibilities[habilitat.nom][h]);
+      }
+    }
+  }
+  this.actualizarHabilitatsSeleccionadas();
 }
 
 crearHeroe() {
@@ -54,7 +67,7 @@ crearHeroe() {
     return;
   }
 
-  const checkboxesMarcat = this.habilitats.filter(h => h.seleccionada);
+  const checkboxesMarcat = this.habilitatsSeleccionada.filter(h => h.nom !== this.nom);
   if (checkboxesMarcat.length === 0) {
     this.missatgeError = 'Cal seleccionar com a mínim una habilitat.';
     return;
@@ -73,5 +86,36 @@ crearHeroe() {
   this.herois = JSON.parse(localStorage.getItem('heroes')!);
 
 }  
+actualizarHabilitatsSeleccionadas() {
+  const compatibles: { [nombre: string]: number } = {};
 
+  for (const habilitat of this.habilitats) {
+    compatibles[habilitat.nom] = 0;
+  }
+
+  for (const habilidadSeleccionada of this.habilitatsSeleccionada) {
+    for (const habilitat of this.habilitats) {
+      if (habilidadSeleccionada.compatibles.includes(habilitat.nom)) {
+        compatibles[habilitat.nom]++;
+      }
+    }
+  }
+
+  this.habilitatsSeleccionada.sort((a, b) => compatibles[b.nom] - compatibles[a.nom]);
+}
+
+seleccionarHabilitat(habilitat: Habilitat) {
+  const index = this.habilitatsSeleccionada.findIndex(h => h.nom === habilitat.nom);
+  if (index !== -1) {
+    this.habilitatsSeleccionada.splice(index, 1);
+  } else {
+    this.habilitatsSeleccionada.push(habilitat);
+  }
+
+  this.actualizarHabilitatsSeleccionadas();
+}
+
+estaSeleccionada(habilitat: Habilitat) {
+  return this.habilitatsSeleccionada.some(h => h.nom === habilitat.nom);
+}
 }

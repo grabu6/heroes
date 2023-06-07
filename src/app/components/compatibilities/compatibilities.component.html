@@ -1,1 +1,20 @@
-<p>compatibilities works!</p>
+<div>
+    <h3>Compatibilitats Skills</h3>
+    <form>
+      <table>
+        <tr>
+          <th></th>
+          <th *ngFor="let habilitat of habilitats">{{ habilitat.nom }}</th>
+        </tr>
+        <tr *ngFor="let habilitat of habilitats">
+          <td>{{ habilitat.nom }}</td>
+          <td *ngFor="let compatibility of habilitats">
+            <input type="checkbox" name="compatibility" [(ngModel)]="compatibilities[habilitat.nom][compatibility.nom]"     
+            (change)="compatibilitatAutomatica(habilitat.nom, compatibility.nom)">
+          </td>
+        </tr>
+      </table>
+      <button (click)="guardarCompatibilitats()">Guardar</button>
+    </form>
+</div>
+  
