@@ -5,9 +5,11 @@ interface Heroes {
   descripcio: string;
   habilitat:string;
 }
+
 interface Habilitat {
   nom: string;
   compatibles: string[];
+  seleccionada: boolean;
 }
 
 @Component({
@@ -40,14 +42,15 @@ ngOnInit() {
   const compatibilitatsGuardades = localStorage.getItem('compatibilities');
   if (compatibilitatsGuardades) {
     const compatibilities = JSON.parse(compatibilitatsGuardades);
-
+    
     for (const habilitat of this.habilitats) {
       if (compatibilities.hasOwnProperty(habilitat.nom)) {
         habilitat.compatibles = Object.keys(compatibilities[habilitat.nom]).filter(h => compatibilities[habilitat.nom][h]);
+      } else {
+        habilitat.compatibles = []; 
       }
     }
   }
-  this.actualizarHabilitatsSeleccionadas();
 }
 
 crearHeroe() {
@@ -86,36 +89,40 @@ crearHeroe() {
   this.herois = JSON.parse(localStorage.getItem('heroes')!);
 
 }  
-actualizarHabilitatsSeleccionadas() {
-  const compatibles: { [nombre: string]: number } = {};
-
-  for (const habilitat of this.habilitats) {
-    compatibles[habilitat.nom] = 0;
-  }
-
-  for (const habilidadSeleccionada of this.habilitatsSeleccionada) {
-    for (const habilitat of this.habilitats) {
-      if (habilidadSeleccionada.compatibles.includes(habilitat.nom)) {
-        compatibles[habilitat.nom]++;
-      }
-    }
-  }
-
-  this.habilitatsSeleccionada.sort((a, b) => compatibles[b.nom] - compatibles[a.nom]);
-}
 
 seleccionarHabilitat(habilitat: Habilitat) {
-  const index = this.habilitatsSeleccionada.findIndex(h => h.nom === habilitat.nom);
-  if (index !== -1) {
-    this.habilitatsSeleccionada.splice(index, 1);
-  } else {
+  if (this.habilitatsSeleccionada.length === 0) {
     this.habilitatsSeleccionada.push(habilitat);
-  }
 
-  this.actualizarHabilitatsSeleccionadas();
+    for (const h of this.habilitats) {
+      if (h.nom !== habilitat.nom && (!habilitat.compatibles || !habilitat.compatibles.includes(h.nom))) {
+        h.seleccionada = false;
+      }
+    }
+  } else {
+    const index = this.habilitatsSeleccionada.findIndex(h => h.nom === habilitat.nom);
+    if (index !== -1) {
+      this.habilitatsSeleccionada.splice(index, 1);
+    } else {
+      this.habilitatsSeleccionada.push(habilitat);
+    }
+  }
 }
 
 estaSeleccionada(habilitat: Habilitat) {
   return this.habilitatsSeleccionada.some(h => h.nom === habilitat.nom);
+}
+
+noCompatible(habilitat: Habilitat): boolean {
+  if (this.habilitatsSeleccionada.length === 0) {
+    return false; 
+  }
+  if (this.habilitatsSeleccionada.length > 0) {
+    const primeraHabilitatSeleccionada = this.habilitatsSeleccionada[0];
+    return !primeraHabilitatSeleccionada.compatibles.includes(habilitat.nom);
+  }
+
+  return true;
+
 }
 }

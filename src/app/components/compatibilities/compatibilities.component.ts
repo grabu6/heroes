@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 interface Habilitat {
   nom: string;
+  compatibles: string[];
 }
 
 @Component({
@@ -19,11 +20,29 @@ export class CompatibilitiesComponent {
     if (habilitatGuardades) {
       this.habilitats = JSON.parse(habilitatGuardades);
     }
+
     this.initializeCompatibilities();
   }
 
   initializeCompatibilities() {
-    this.compatibilities = {};
+  this.compatibilities = {};
+  const compatibilitiesGuardades = localStorage.getItem('compatibilities');
+  if (compatibilitiesGuardades) {
+    this.compatibilities = JSON.parse(compatibilitiesGuardades);
+    for (let habilitat of this.habilitats) {
+      if (!this.compatibilities.hasOwnProperty(habilitat.nom)) {
+        this.compatibilities[habilitat.nom] = {};
+        for (let compatibility of this.habilitats) {
+          if (habilitat.nom === compatibility.nom) {
+            this.compatibilities[habilitat.nom][compatibility.nom] = true;
+          } else {
+            this.compatibilities[habilitat.nom][compatibility.nom] = false;
+          }
+        }
+      }
+    }
+    
+  } else {
     for (let habilitat of this.habilitats) {
       this.compatibilities[habilitat.nom] = {};
       for (let compatibility of this.habilitats) {
@@ -34,10 +53,12 @@ export class CompatibilitiesComponent {
         }
       }
     }
+    
   }
+}
 
-  compatibilitatAutomatica(habilitat1: string, habilitat2: string) {
-    const valorActual = this.compatibilities[habilitat1][habilitat2];
+compatibilitatAutomatica(habilitat1: string, habilitat2: string, event: any) {
+    const valorActual = event.target.checked;
     this.compatibilities[habilitat1][habilitat2] = valorActual;
     this.compatibilities[habilitat2][habilitat1] = valorActual;
   }

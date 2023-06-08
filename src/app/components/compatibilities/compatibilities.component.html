@@ -1,4 +1,4 @@
-<div>
+<div class="container">
     <h3>Compatibilitats Skills</h3>
     <form>
       <table>
@@ -9,8 +9,9 @@
         <tr *ngFor="let habilitat of habilitats">
           <td>{{ habilitat.nom }}</td>
           <td *ngFor="let compatibility of habilitats">
-            <input type="checkbox" name="compatibility" [(ngModel)]="compatibilities[habilitat.nom][compatibility.nom]"     
-            (change)="compatibilitatAutomatica(habilitat.nom, compatibility.nom)">
+            <input type="checkbox" name="compatibility" [disabled]="habilitat.nom == compatibility.nom"    
+            (change)="compatibilitatAutomatica(habilitat.nom, compatibility.nom, $event)"
+            [checked]="compatibilities[habilitat.nom][compatibility.nom]">
           </td>
         </tr>
       </table>

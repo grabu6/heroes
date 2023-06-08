@@ -1,3 +1,21 @@
+.container {
+    display: flex;
+}
+
+.column {
+    flex: 1;
+    padding: 20px;
+}
+
+.column:first-child {
+    margin-left: 250px; 
+  }
+  
+.input-container {
+    margin-bottom: 10px; 
+}
+  
 .error-message {
     color: red;
 }
+

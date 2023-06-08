@@ -10,20 +10,23 @@
         <div class="input-container">
             <label>Descripció:</label>
             <textarea [(ngModel)]="descripcio" name="descripcio" maxlength="200"></textarea>
-        </div>
+        </div><br>
         <div>
             <label>Habilitats:</label>
             <li *ngFor="let habilitat of habilitats">
-                <input type="checkbox" [checked]="estaSeleccionada(habilitat)" (change)="seleccionarHabilitat(habilitat)">
+                <input type="checkbox" [checked]="estaSeleccionada(habilitat)" [disabled]="noCompatible(habilitat)" (change)="seleccionarHabilitat(habilitat)">
                 {{ habilitat.nom }} ({{ habilitat.compatibles.length }})
             </li>
             <br>
             <button type="submit">Crear Heroi</button>
-            <br>
-            <p>{{ missatgeError }}</p>
+            
+            <div *ngIf="missatgeError" class="error-message">
+                {{ missatgeError }}
+            </div>
         </div>
         </form>
-
+    </div>
+    <div class="column">
         <div>
           <h3>Llistat d'herois</h3>
           <ul>
@@ -34,4 +37,6 @@
             </li>
           </ul>
         </div>
+    </div>
+</div>
 
