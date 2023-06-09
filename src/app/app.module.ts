@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { CompatibilitiesComponent } from './components/compatibilities/compatibilities.component';
 import { HeroesComponent } from './components/heroes/heroes.component';
 import { SkillsComponent } from './components/skills/skills.component';
+import { ArmesComponent } from './components/armes/armes.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { SkillsComponent } from './components/skills/skills.component';
     CompatibilitiesComponent,
     HeroesComponent,
     SkillsComponent,
+    ArmesComponent,
   ],
   imports: [
     BrowserModule,
