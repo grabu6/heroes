@@ -30,7 +30,7 @@ llistarHabilitats() {
   const habilitatsGuardades = localStorage.getItem('habilitats');
     if (habilitatsGuardades) {
       this.habilitats = JSON.parse(habilitatsGuardades);
-    }
+  }
 }
 
 crearHabilitat() {

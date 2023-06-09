@@ -1,0 +1,24 @@
+<div class="container">
+    <h3>Compatibilitats Tipus</h3>
+    <form>
+      <table>
+        <tr>
+          <th></th>
+          <th *ngFor="let tipu of tipus">{{ tipu.name }}</th>
+        </tr>
+        <tr *ngFor="let arma of armes">
+          <td>{{ arma.nom }}</td>
+          <td *ngFor="let tipu of tipus">
+            <input
+              type="checkbox"
+              name="compatibility"
+              (change)="compatibilitatAutomatica(tipu.name, arma.nom, $event)"
+              [checked]="compatibilities[tipu.name[0]][arma.nom]"
+            />
+          </td>
+        </tr>
+      </table>
+      <button (click)="guardarCompatibilitats()">Guardar</button>
+    </form>
+  </div>
+  

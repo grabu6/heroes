@@ -1,0 +1,10 @@
+<div>
+    <h2>Tipus</h2>
+    <form [formGroup]="tipusForm" (ngSubmit)="guardarTipus()">
+      <div class="input-container">
+        <label>Tipus:</label>
+        <input type="text" formControlName="tipus">
+      </div><br>
+      <button type="submit" [disabled]="tipusForm.invalid">Guardar</button>
+    </form>
+</div>

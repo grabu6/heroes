@@ -1,1 +1,81 @@
-<p>armes works!</p>
+  <div class="container">
+    <div class="column">
+        <h2>Crear Arma</h2>
+
+        <form (ngSubmit)="crearArma()" [formGroup]="armaForm">
+            <div class="input-container">
+                <label>Nom:</label>
+                <input type="text" name="nom" formControlName="nom">
+            </div>
+            <div *ngIf="missatgeError" class="error-message">
+                {{ missatgeError }}
+            </div>
+            <div class="input-container">
+                <label>Damage:</label>
+                <input type="range" name="damage" formControlName="damage" min="10" max="100" step="1" (input)="onChange($event)">
+                <span>{{ armaForm.value.damage }}</span>
+            </div>
+            <div class="input-container">
+                <label>Abast:</label>
+                <input type="range" name="abast" formControlName="abast" min="10" max="100" step="1" (input)="onChange($event)">
+                <span>{{ armaForm.value.abast }}</span>
+            </div>
+
+            <div class="input-container">
+                <label>Velocitat:</label>
+                <input type="range" name="velocitat" formControlName="velocitat" min="10" max="100" step="1" (input)="onChange($event)">
+                <span>{{ armaForm.value.velocitat }}</span>
+            </div>
+
+            <div *ngIf="missatgeError1" class="error-message">
+                {{ missatgeError1 }}
+            </div>
+
+            <button type="submit" [disabled]="armaForm.invalid || armaForm.get('nom')?.invalid || armaForm.get('damage')?.invalid || armaForm.get('abast')?.invalid || armaForm.get('velocitat')?.invalid">Guardar</button>
+        </form>
+    </div>
+    <div class="column">
+        <h2>Llistat d'armes</h2>
+        <ul>
+        <li *ngFor="let arma of armes">
+            <h3>{{ arma.nom }}</h3>
+            <p>Damage: {{ arma.damage }}</p>
+            <p>Abast: {{ arma.abast }}</p>
+            <p>Velocitat: {{ arma.velocitat }}</p>
+            <button (click)="editarArma(arma)">Editar</button>
+            <button (click)="eliminarArma(arma)">Eliminar</button>
+        </li>
+        </ul>
+    </div>
+    <div class="column">
+        <h2>Editar Arma</h2>
+        <form *ngIf="armaSeleccionada" [formGroup]="armaFormEdicio" (ngSubmit)="guardarCanvis()">
+        <div class="input-container">
+            <label>Nom:</label>
+            <input type="text" formControlName="nom" name="nom">
+        </div>
+        <div *ngIf="missatgeError2" class="error-message">
+            {{ missatgeError2 }}
+        </div>
+        <div class="input-container">
+            <label>Damage:</label>
+            <input type="range" name="damage" formControlName="damage" min="10" max="100" step="1" (input)="onChange($event)">
+            <span>{{ armaFormEdicio.value.damage }}</span>
+        </div>
+        <div class="input-container">
+            <label>Abast:</label>
+            <input type="range" name="abast" formControlName="abast" min="10" max="100" step="1" (input)="onChange($event)">
+            <span>{{ armaFormEdicio.value.abast }}</span>
+        </div>
+        <div class="input-container">
+            <label>Velocitat:</label>
+            <input type="range" name="velocitat" formControlName="velocitat" min="10" max="100" step="1" (input)="onChange($event)">
+            <span>{{ armaFormEdicio.value.velocitat }}</span>
+        </div>
+        <div *ngIf="missatgeError3" class="error-message">
+            {{ missatgeError3 }}
+        </div>
+        <button type="submit" [disabled]="armaFormEdicio.invalid || armaFormEdicio.get('nom')?.invalid || armaFormEdicio.get('damage')?.invalid || armaFormEdicio.get('abast')?.invalid || armaFormEdicio.get('velocitat')?.invalid">Guardar canvis</button>
+        </form>
+    </div>
+</div>

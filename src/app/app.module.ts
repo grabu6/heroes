@@ -7,6 +7,9 @@ import { CompatibilitiesComponent } from './components/compatibilities/compatibi
 import { HeroesComponent } from './components/heroes/heroes.component';
 import { SkillsComponent } from './components/skills/skills.component';
 import { ArmesComponent } from './components/armes/armes.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { TipusComponent } from './components/tipus/tipus.component';
+import { CompatibilitatTipusComponent } from './components/compatibilitat-tipus/compatibilitat-tipus.component';
 
 @NgModule({
   declarations: [
@@ -15,11 +18,14 @@ import { ArmesComponent } from './components/armes/armes.component';
     HeroesComponent,
     SkillsComponent,
     ArmesComponent,
+    TipusComponent,
+    CompatibilitatTipusComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
