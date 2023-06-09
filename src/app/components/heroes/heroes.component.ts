@@ -47,10 +47,14 @@ ngOnInit() {
       if (compatibilities.hasOwnProperty(habilitat.nom)) {
         habilitat.compatibles = Object.keys(compatibilities[habilitat.nom]).filter(h => compatibilities[habilitat.nom][h]);
       } else {
-        habilitat.compatibles = []; 
+        habilitat.compatibles = [habilitat.nom]; 
       }
     }
-  }
+  } else {
+    for (const habilitat of this.habilitats) {
+      habilitat.compatibles = [habilitat.nom]; 
+    }
+  } 
 }
 
 crearHeroe() {
